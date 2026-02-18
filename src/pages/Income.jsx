@@ -1,8 +1,10 @@
-import { useState } from "react";
+import { use, useEffect, useState } from "react";
 import Dashboard from "../components/Dashboard";
 import { useUser } from "../hooks/useUser";
 import { API_ENDPOINTS } from "../util/apiEndpoints";
 import toast from "react-hot-toast";
+import axiosConfig from "../util/axiosConfig";
+import IncomeList from "../components/IncomeList";
 
 const Income = () => {
     useUser();
@@ -27,16 +29,26 @@ const Income = () => {
             }
         } catch (error) {
             console.error("Failed to fetch income data:", error);
-            toast.error("Failed to fetch income data. Please try again later.");
+            toast.error(error.response?.data?.message || "Failed to fetch income data. Please try again later.");
         } finally {
             setLoading(false);
         }
     }
 
+    useEffect(() => {
+        fetchIncomeData();
+    }, []);
 
     return (
             <Dashboard activeMenu="Income">
-                This is Income page
+                <div className="my-5 mx-auto">
+                    <div className="grid grid-cols-1 gap-6">
+                        <div>
+                            {/* overview for income with line chart */}
+                        </div>
+                        <IncomeList transactions={incomeData} />
+                    </div>
+                </div>
             </Dashboard>
     )
 }
