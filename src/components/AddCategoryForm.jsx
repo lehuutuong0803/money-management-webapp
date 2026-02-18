@@ -1,8 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Input from "./Inpux";
 import EmojiPickerPopup from "./EmojiPickerPopup";
+import { LoaderCircle } from "lucide-react";
 
-const AddCategoryForm = ({onAddCategory}) => {
+const AddCategoryForm = ({initialCategoryData, isEditing, onAddCategory}) => {
+    const [loading, setLoading] = useState(false);
+
     const [category, setCategory] = useState({
         name: "",
         type: "income",
@@ -14,12 +17,24 @@ const AddCategoryForm = ({onAddCategory}) => {
         { value: "expense", label: "Expense" }
     ]
 
+    useEffect(() => {
+        if (isEditing && initialCategoryData) {
+            setCategory(initialCategoryData);
+        }
+    }, [isEditing, initialCategoryData]);
+
     const handleChange = (field, value) => {
         setCategory({...category, [field]: value});
     }
 
-    const handleSubmit = () => {
-        onAddCategory(category);
+    const handleSubmit = async () => {
+        setLoading(true);
+        try {
+            await onAddCategory(category);
+            
+        } finally {
+            setLoading(false);
+        }
     }
     return (
         <div className="p-4">
@@ -49,7 +64,16 @@ const AddCategoryForm = ({onAddCategory}) => {
                     type="button"
                     className="bg-purple-800 hover:bg-purple-600 text-white font-semibold py-3 w-full rounded-lg transition-colors 
                             flex items-center justify-center gap-2">
-                    Add Category
+                    {loading ? (
+                        <>
+                            <LoaderCircle className="w-4 h-4 animate-spin"/>
+                            {isEditing ? "Updating..." : "Adding..."}
+                        </>
+                    ) : (
+                        <>
+                           {isEditing ? "Update Category" : "Add Category"}
+                        </>
+                    )}
                 </button>
             </div>
 

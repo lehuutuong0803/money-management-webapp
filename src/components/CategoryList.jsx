@@ -1,6 +1,6 @@
 import { Layers2, Pencil } from "lucide-react";
 
-const CategoryList = ({categories, onEditCategory, onDeleteCategory}) => {
+const CategoryList = ({categories, onEditCategory}) => {
     return (
         <div className="card p-4">
             <div className="flex items-center justify-between mb-4">

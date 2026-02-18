@@ -40,9 +40,87 @@ const Category = () => {
         fetchCategoryDetails();
     }, [])
 
-    const handleAddCategory = (category) => {
-        console.log("Category added successfully: ", category);
+    const handleAddCategory = async (category) => {
+        const {name, type, icon} = category;
+
+        // check if the category already exists
+        const existingCategory = isCategoryNameExisting(category.name);
+
+        if (existingCategory) {
+            toast.error("Category with the same name already exists.");
+            return;
+        }
+
+        if (!name.trim()) {
+            toast.error("Category name cannot be empty.");
+            return;
+        }
+
+        try {
+            const response = await axiosConfig.post(API_ENDPOINTS.ADD_CATEGORY, {
+                name,
+                type,
+                icon
+            })
+            if (response.status === 201 && response.data) {
+                toast.success("Category added successfully!");
+                setOpenAddCategoryModal(false);
+                fetchCategoryDetails();
+            }
+        } catch (error) {
+            toast.error(error.response?.data?.message || "Failed to add category. Please try again later.");
+            console.error("Error adding category:", error);
+        }
+
         
+    }
+
+    const handleEditCategory = (category) => {
+        setOpenEditCategoryModal(true);
+        setSelectedCategory(category);
+
+    }
+
+    const isCategoryNameExisting = (name) => {
+        return categoryData.some((item) => {
+            return item.name.trim().toLowerCase() === name.trim().toLowerCase();
+        })
+    }
+
+    const handleUpdateCategory = async (updatedCategory) => {
+
+        try {
+            
+            if (!updatedCategory.name.trim()) {
+                toast.error("Category name cannot be empty.");
+                return;
+            }
+
+            if (!updatedCategory.id.trim()) {
+                toast.error("Category ID is missing for update .");
+                return;
+            }
+
+            const existingCategory = isCategoryNameExisting(updatedCategory.name);
+            if (existingCategory){
+                toast.error("Category with the same name already exists.");
+                return;
+            }
+
+            const response = await axiosConfig.put(API_ENDPOINTS.UPDATE_CATEGORY(updatedCategory.id), updatedCategory);
+            if (response.status === 200 && response.data) {
+                toast.success("Category updated successfully!");
+                setOpenEditCategoryModal(false);
+                fetchCategoryDetails();
+                setSelectedCategory(null);
+            } else {
+                toast.error("Failed to update category. Please try again later.");
+            }
+
+        } catch (error) {
+            toast.error(error.response?.data?.message || "Failed to update category. Please try again later.");
+            console.error("Error updating category:", error);
+        }
     }
 
     return (
@@ -62,6 +140,7 @@ const Category = () => {
                     {/* Category List */}
                     <CategoryList 
                         categories={categoryData}
+                        onEditCategory={handleEditCategory}
                     />
 
                     {/* Adding category modal */}
@@ -77,6 +156,22 @@ const Category = () => {
                     </Modal>
 
                     {/* Updating category modal */}
+                    <Modal
+                        isOpen={openEditCategoryModal}
+                        onClose={() => {
+                            setOpenEditCategoryModal(false);
+                            setSelectedCategory(null);
+                        }}
+                        title="Edit Category">
+                        
+                        <AddCategoryForm
+                            initialCategoryData={selectedCategory}
+                            isEditing={true}
+                            onAddCategory={handleUpdateCategory}
+                        />
+
+                    </Modal>
+                    
                 </div>
             </Dashboard>
     )
