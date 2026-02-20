@@ -15,6 +15,8 @@ export const API_ENDPOINTS = {
     GET_USER_INFO: "/profile",
     GET_ALL_CATEGORIES: "/categories",
     GET_ALL_INCOME: "/incomes",
+    CATEGORY_BY_TYPE: (type) => `/categories/${type}`,
     ADD_CATEGORY: "/categories",
+    ADD_INCOME: "/incomes",
     UPDATE_CATEGORY: (categoryId) => `/categories/${categoryId}`,
 }
