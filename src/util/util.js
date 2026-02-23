@@ -24,7 +24,7 @@ export const addThousandSeparator = (amount) =>  {
   return isNegative ? `-${result}` : result;
 }
 
-export const prepareIncomeLineChartData = (transactions) => {
+export const prepareLineChartData = (transactions) => {
     if (!transactions) return null;
     // Group transactions by date
     const groupedByDate =transactions.reduce((acc, transaction) => {

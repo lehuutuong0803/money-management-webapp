@@ -4,12 +4,12 @@ import { useUser } from "../hooks/useUser";
 import { API_ENDPOINTS } from "../util/apiEndpoints";
 import toast from "react-hot-toast";
 import axiosConfig from "../util/axiosConfig";
-import IncomeList from "../components/IncomeList";
+import ItemList from "../components/ItemList";
 import Modal from "../components/Modal";
 import { Plus } from "lucide-react";
-import AddIncomeForm from "../components/AddIncomeForm";
+import AddIncomeAndExpenseForm from "../components/AddIncomeAndExpenseForm";
 import DeleteAlert from "../components/DeleteAlert";
-import IncomeOverview from "../components/IncomeOverview";
+import Overview from "../components/Overview";
 
 const Income = () => {
     useUser();
@@ -167,12 +167,14 @@ const Income = () => {
                     <div className="grid grid-cols-1 gap-6">
                         <div>
                             {/* overview for income with line chart */}
-                            <IncomeOverview
-                                onAddIncome={() => setOpenAddIncomeModal(true)}
+                            <Overview
+                                isIncome={true}
+                                onAddEvent={() => setOpenAddIncomeModal(true)}
                                 transactions={incomeData}
                             />
                         </div>
-                        <IncomeList 
+                        <ItemList 
+                            isIncome={true}
                             transactions={incomeData} 
                             onDelete={(id) => {
                                 setOpenDeleteAlert({show: true, data: id})
@@ -186,10 +188,11 @@ const Income = () => {
                             onClose={() => setOpenAddIncomeModal(false)}
                             title="Add Income"
                         >
-                            <AddIncomeForm
+                            <AddIncomeAndExpenseForm
+                                isIncome={true}
                                 onAddIncome={(income) => handleAddIncome(income)}
                                 categories={categories}
-                            ></AddIncomeForm>
+                            ></AddIncomeAndExpenseForm>
                         </Modal>
 
                         {/* Delete income model */}
