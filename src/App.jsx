@@ -5,7 +5,7 @@ import Income from "./pages/Income";
 import Expense from "./pages/Expense";
 import Filter from "./pages/Filter";
 import Category from "./pages/Category";
-import LogIn from "./pages/LogIn";
+import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import { Toaster } from "react-hot-toast";
 
@@ -21,7 +21,7 @@ const App = () => {
               <Route path="/expense" element={<Expense />} />
               <Route path="/filter" element={<Filter />} />
               <Route path="/category" element={<Category />} />
-              <Route path="/login" element={<LogIn />} />
+              <Route path="/login" element={<Login />} />
               <Route path="/signup" element={<Signup />} />
           </Routes>
       </BrowserRouter>

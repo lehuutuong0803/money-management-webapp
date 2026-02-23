@@ -20,7 +20,7 @@ const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setIsLoading(true);
-        // validate the form data s
+        // validate the form dataa
         if (!email.trim()) {
             setError("Email is required");
             setIsLoading(false);
