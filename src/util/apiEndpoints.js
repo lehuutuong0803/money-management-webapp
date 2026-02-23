@@ -1,5 +1,5 @@
-// export const BASE_URL = "https://money-management-ntm7.onrender.com/api/v1.0";
-export const BASE_URL = "http://localhost:8080/api/v1.0";
+export const BASE_URL = "https://money-management-ntm7.onrender.com/api/v1.0";
+// export const BASE_URL = "http://localhost:8080/api/v1.0";
 
 const CLOUNDINARY_CLOUD_NAME = "drcdg3uvv";
 
@@ -17,6 +17,7 @@ export const API_ENDPOINTS = {
     EMAIL_INCOME: "/incomes/email",
     EMAIL_EXPENSE: "/expenses/email",
     APP_FILTERS: "/filter",
+    DASHBOARD_DATA: "/dashboard",
     GET_USER_INFO: "/profile",
     GET_ALL_CATEGORIES: "/categories",
     GET_ALL_INCOME: "/incomes",

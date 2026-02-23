@@ -77,7 +77,7 @@ const CustomeLineChart = ({ data }) => {
 
     // Format currency
     const formatCurrency = (amount) => {
-        return '₹' + amount.toLocaleString();
+        return '$' + amount.toLocaleString();
     };
 
     // Handle mouse move for tooltip - now tracks mouse position
